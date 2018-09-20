@@ -1,1 +1,1 @@
-{"Modules":[{"Source":"./modules/compartment","Key":"1.create_compartment;./modules/compartment","Version":"","Dir":".terraform/modules/38d3f79f581eb3112c6b05d4897d32a5","Root":""}]}
+{"Modules":[{"Source":"./modules/compartment","Key":"1.create_compartment;./modules/compartment","Version":"","Dir":".terraform/modules/38d3f79f581eb3112c6b05d4897d32a5","Root":""},{"Source":"./modules/vcn","Key":"1.create_vcn;./modules/vcn","Version":"","Dir":".terraform/modules/81e2dbabd7cdaf36534119133767c4fd","Root":""}]}

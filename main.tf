@@ -7,8 +7,15 @@ provider "oci" {
   region = "${var.region}"
 }
 
+# This runs a main.tf file in the /modules/compartment folder
+# that creates a new compartment on the tenancy
 module "create_compartment" {
   source = "./modules/compartment"
+}
+
+module "create_vcn" {
+  source = "./modules/vcn"
+  created_compartment_id = "${module.create_compartment.compartment_id}"
 }
 
 # Get a list of Availability Domains
@@ -39,6 +46,12 @@ data "oci_objectstorage_bucket_summaries" "buckets1" {
 }
 
 # Output the result
+
+# created output for debugging
+output "compartment_id" {
+  value = "${module.create_compartment.compartment_id}"
+}
+
 output "show-ads" {
   value = "${data.oci_identity_availability_domains.ads.availability_domains}"
 }

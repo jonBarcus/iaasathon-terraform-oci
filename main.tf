@@ -1,6 +1,3 @@
-package main
-import "github.com/d4l3k/go-pry/pry"
-
 # Configure the Oracle Cloud Infrastructure provider with an API Key
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
@@ -8,6 +5,10 @@ provider "oci" {
   fingerprint = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
   region = "${var.region}"
+}
+
+module "create_compartment" {
+  source = "./modules/compartment"
 }
 
 # Get a list of Availability Domains
@@ -25,10 +26,6 @@ data "oci_identity_tenancy" "this_tenancy" {
   #   name = "name"
   #   bucket_namespace = ["${oci_identity_tenancy.this_tenancy.name}"]
   # }
-}
-
-output "this_tenancy" {
-  value = "${data.oci_identity_tenancy.this_tenancy.name}"
 }
 
 data "oci_objectstorage_bucket_summaries" "buckets1" {
@@ -50,4 +47,6 @@ output "buckets" {
   value = "${data.oci_objectstorage_bucket_summaries.buckets1.bucket_summaries}"
 }
 
-pry.Pry()
+output "this_tenancy" {
+  value = "${data.oci_identity_tenancy.this_tenancy.name}"
+}

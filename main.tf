@@ -13,13 +13,17 @@ module "create_compartment" {
   source = "./modules/compartment"
 }
 
-module "create_vcn" {
-  source = "./modules/vcn"
+module "setup_networking" {
+  subnet_count = 2 #how many subnets you want created
+  source = "./modules/networking"
   created_compartment_id = "${module.create_compartment.compartment_id}"
+  tenancy_ocid = "${var.tenancy_ocid}"
+  availability_domains = "${data.oci_identity_availability_domains.ADs.availability_domains}"
 }
 
+
 # Get a list of Availability Domains
-data "oci_identity_availability_domains" "ads" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.compartment_ocid}"
 }
 
@@ -48,12 +52,16 @@ data "oci_objectstorage_bucket_summaries" "buckets1" {
 # Output the result
 
 # created output for debugging
+output "AVAILABILITY DOMAINS" {
+  value = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain], "name")}"
+}
+
 output "compartment_id" {
   value = "${module.create_compartment.compartment_id}"
 }
 
 output "show-ads" {
-  value = "${data.oci_identity_availability_domains.ads.availability_domains}"
+  value = "${data.oci_identity_availability_domains.ADs.availability_domains}"
 }
 
 output "buckets" {

@@ -1,3 +1,6 @@
+package main
+import "github.com/d4l3k/go-pry/pry"
+
 # Configure the Oracle Cloud Infrastructure provider with an API Key
 provider "oci" {
   tenancy_ocid = "${var.tenancy_ocid}"
@@ -46,3 +49,5 @@ output "show-ads" {
 output "buckets" {
   value = "${data.oci_objectstorage_bucket_summaries.buckets1.bucket_summaries}"
 }
+
+pry.Pry()

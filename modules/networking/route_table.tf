@@ -10,3 +10,20 @@ resource "oci_core_route_table" "route_table" {
  }
 
 }
+
+data "oci_core_route_tables" "created_route_tables" {
+
+  compartment_id = "${var.created_compartment_id}"
+  vcn_id = "${oci_core_virtual_network.vcn.id}"
+
+  filter {
+    name = "id"
+    values =["${oci_core_route_table.route_table.id}"]
+  }
+
+}
+
+output "created_route_tables" {
+
+  value = "${oci_core_route_table.route_table.id}"
+}

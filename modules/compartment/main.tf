@@ -1,5 +1,5 @@
 resource "oci_identity_compartment" "compartment1" {
-  name        = "test-barcus-customer-migration"
+  name        = "test2-barcus-customer-migration"
   description = "compartment created by terraform"
 }
 
@@ -8,7 +8,7 @@ data "oci_identity_compartments" "compartments1" {
 
   filter {
     name   = "name"
-    values = ["test-barcus-customer-migration"]
+    values = ["test2-barcus-customer-migration"]
   }
 }
 

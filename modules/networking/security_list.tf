@@ -44,3 +44,21 @@ resource "oci_core_security_list" "security_list" {
    stateless = true
  }
 }
+
+data "oci_core_security_lists" "created_security_lists" {
+
+  compartment_id = "${var.created_compartment_id}"
+  vcn_id = "${oci_core_virtual_network.vcn.id}"
+
+  filter {
+    name = "id"
+    values =["${oci_core_security_list.security_list.id}"]
+  }
+
+}
+
+output "created_security_list" {
+
+  value = "${oci_core_security_list.security_list.id}"
+}
+

@@ -2,6 +2,8 @@ variable subnet_count {}
 # variable created_compartment_id {}
 variable tenancy_ocid {}
 variable availability_domains {type = "list"}
+variable security_list_ids {}
+variable created_route_table {}
 
 resource "oci_core_subnet" "test-subnet" {
   count = "${var.subnet_count}"
@@ -15,8 +17,8 @@ resource "oci_core_subnet" "test-subnet" {
   dns_label           = "tbarcussub${1 + count.index}"
   compartment_id      = "${var.created_compartment_id}"
   vcn_id              = "${oci_core_virtual_network.vcn.id}"
-  security_list_ids   = ["${oci_core_virtual_network.vcn.default_security_list_id}"]
-  route_table_id      = "${oci_core_virtual_network.vcn.default_route_table_id}"
+  security_list_ids   = ["${var.security_list_ids}"]
+  route_table_id      = "${var.created_route_table}"
   dhcp_options_id     = "${oci_core_virtual_network.vcn.default_dhcp_options_id}"
 }
 

@@ -19,6 +19,8 @@ module "setup_networking" {
   created_compartment_id = "${module.create_compartment.compartment_id}"
   tenancy_ocid = "${var.tenancy_ocid}"
   availability_domains = "${data.oci_identity_availability_domains.ADs.availability_domains}"
+  security_list_ids = "${module.setup_networking.created_security_list}"
+  created_route_table = "${module.setup_networking.created_route_tables}"
 }
 
 module "object_storage" {
@@ -56,7 +58,7 @@ module "compute" {
   # authorized_keys = "../../../Downloads/terraform_authorized_keys.pub"
   authorized_keys = "${var.ssh_public_key}"
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1], "name")}"
-  available_subnet = "${lookup(module.setup_networking.created_subnets[1], "id")}"
+  available_subnet = "${lookup(module.setup_networking.created_subnets[0], "id")}"
 }
 
 
@@ -90,6 +92,10 @@ data "oci_objectstorage_bucket_summaries" "buckets1" {
 # Output the result
 
 # created output for debugging
+
+output "created_security_list" {
+  value = "${module.setup_networking.created_security_list}"
+}
 
 output "created_subnets" {
 

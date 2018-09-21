@@ -24,3 +24,7 @@ data "oci_objectstorage_bucket_summaries" "buckets" {
 output buckets {
   value = "${data.oci_objectstorage_bucket_summaries.buckets.bucket_summaries}"
 }
+
+output "created_bucket_name" {
+  value = "${oci_objectstorage_bucket.bucket.name}"
+}

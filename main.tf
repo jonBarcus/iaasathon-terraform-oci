@@ -25,6 +25,12 @@ module "object_storage" {
   source = "./modules/object_storage"
   created_compartment_id = "${module.create_compartment.compartment_id}"
   bucket_name = "test_barcus_bucket"
+  # Name of the bucket that was created
+  created_bucket_name = "${module.object_storage.created_bucket_name}"
+  # name of the object being uploaded
+  bucket_object_name = "test_customer_image"
+  # location of the customer_image
+  local_object_location = "../../../Downloads/test_customer_image"
 }
 
 
@@ -58,6 +64,12 @@ data "oci_objectstorage_bucket_summaries" "buckets1" {
 # Output the result
 
 # created output for debugging
+
+output created_bucket_name {
+    value = "${module.object_storage.created_bucket_name}"
+  # value = "${module.object_storage.buckets[0]}"
+}
+
 output "AVAILABILITY DOMAINS" {
   value = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain], "name")}"
 }

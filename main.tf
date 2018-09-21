@@ -21,6 +21,12 @@ module "setup_networking" {
   availability_domains = "${data.oci_identity_availability_domains.ADs.availability_domains}"
 }
 
+module "object_storage" {
+  source = "./modules/object_storage"
+  created_compartment_id = "${module.create_compartment.compartment_id}"
+  bucket_name = "test_barcus_bucket"
+}
+
 
 # Get a list of Availability Domains
 data "oci_identity_availability_domains" "ADs" {

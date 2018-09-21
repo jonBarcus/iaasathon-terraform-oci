@@ -20,3 +20,14 @@ resource "oci_objectstorage_object" "test_object" {
 # 	content_type = "${var.object_content_type}"
 # 	metadata = "${var.object_metadata}"
 	}
+
+	data "oci_objectstorage_object_head" "test_object_head" {
+		#Required
+		bucket = "${var.created_bucket_name}"
+		namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
+		object = "${var.bucket_object_name}"
+	}
+
+	output "created_object_name" {
+		value = "${data.oci_objectstorage_object_head.test_object_head.object}"
+	}

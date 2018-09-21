@@ -31,6 +31,22 @@ module "object_storage" {
   bucket_object_name = "test_customer_image"
   # location of the customer_image
   local_object_location = "../../../Downloads/test_customer_image"
+  region = "${var.region}"
+}
+
+module "compute" {
+  source = "./modules/compute"
+  created_compartment_id = "${module.create_compartment.compartment_id}"
+  # choose the name of the image you'd like
+  name_of_image = "test_customer_image"
+  # select launch mode (NATIVE, EMULATED, or CUSTOM)
+  launch_mode = "NATIVE"
+  # choose whether this is coming direct from BUCKET 'objectStorageTuple'
+  # or from PUBLIC URI 'objectStorageUri'
+  source_type = "objectStorageTuple"
+  bucket_name = "${module.object_storage.created_bucket_name}"
+  namespace_name = "${module.object_storage.namespace_name}"
+  object_name = "${module.object_storage.created_object_name}"
 }
 
 
@@ -64,6 +80,10 @@ data "oci_objectstorage_bucket_summaries" "buckets1" {
 # Output the result
 
 # created output for debugging
+
+output created_object_name {
+  value = "${module.object_storage.created_object_name}"
+}
 
 output created_bucket_name {
     value = "${module.object_storage.created_bucket_name}"

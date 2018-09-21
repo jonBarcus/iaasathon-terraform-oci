@@ -27,3 +27,7 @@ output namespace-metadata {
   default_swift_compartment_id = ${data.oci_objectstorage_namespace_metadata.namespace-metadata1.default_swift_compartment_id}
 EOF
 }
+
+output "namespace_name" {
+  value = "${data.oci_objectstorage_namespace.ns.namespace}"
+}

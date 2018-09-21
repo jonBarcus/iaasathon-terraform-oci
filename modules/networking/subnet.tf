@@ -20,6 +20,17 @@ resource "oci_core_subnet" "test-subnet" {
   dhcp_options_id     = "${oci_core_virtual_network.vcn.default_dhcp_options_id}"
 }
 
+data "oci_core_subnets" "test_subnets" {
+  #Required
+  compartment_id = "${var.created_compartment_id}"
+  vcn_id = "${oci_core_virtual_network.vcn.id}"
+}
+
 data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.tenancy_ocid}"
+}
+
+output "created_subnets" {
+
+  value = "${data.oci_core_subnets.test_subnets.subnets}"
 }

@@ -48,9 +48,15 @@ module "compute" {
   namespace_name = "${module.object_storage.namespace_name}"
   object_name = "${module.object_storage.created_object_name}"
 
-  # instance_shape = "VM.Standard1.1"
-  # # number of VM instances to be created
-  # instance_count = 1
+  instance_shape = "VM.Standard1.1"
+  # number of VM instances to be created
+  instance_count = 1
+  created_image_id = "${module.compute.created_image_id}"
+  # use multiple SSH keys by choosing the authorized_keys.pub file
+  # authorized_keys = "../../../Downloads/terraform_authorized_keys.pub"
+  authorized_keys = "${var.ssh_public_key}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1], "name")}"
+  available_subnet = "${lookup(module.setup_networking.created_subnets[1], "id")}"
 }
 
 
@@ -84,6 +90,12 @@ data "oci_objectstorage_bucket_summaries" "buckets1" {
 # Output the result
 
 # created output for debugging
+
+output "created_subnets" {
+
+  value = "${module.setup_networking.created_subnets}"
+
+}
 
 output "CREATED_IMAGE_ID" {
   value = "${module.compute.created_image_id}"

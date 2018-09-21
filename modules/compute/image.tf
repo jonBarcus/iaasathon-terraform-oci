@@ -26,3 +26,30 @@ resource "oci_core_image" "test_image" {
     # source_image_type = "${var.source_image_type}"
   }
 }
+
+data "oci_core_images" "test_images" {
+  #Required
+  compartment_id = "${var.created_compartment_id}"
+
+  # #Optional
+  display_name = "${var.object_name}"
+  # operating_system = "${var.image_operating_system}"
+  # operating_system_version = "${var.image_operating_system_version}"
+  # shape = "${var.image_shape}"
+  # state = "${var.image_state}"
+
+    # filter {
+    # # id = "id"
+    # # # values = ["${oci_objectstorage_bucket.bucket1.name}"]
+    # # values = [""]
+    # name = "display_name"
+    # values = ["${var.name_of_image}"]
+    # # name = "id"
+    # # values = ["${oci_core_image.test_image.imageid}"]
+  # }
+}
+
+output "created_image_id" {
+
+  value = "${lookup(data.oci_core_images.test_images.images[0], "id")}"
+}

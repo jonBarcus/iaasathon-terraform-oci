@@ -47,6 +47,10 @@ module "compute" {
   bucket_name = "${module.object_storage.created_bucket_name}"
   namespace_name = "${module.object_storage.namespace_name}"
   object_name = "${module.object_storage.created_object_name}"
+
+  # instance_shape = "VM.Standard1.1"
+  # # number of VM instances to be created
+  # instance_count = 1
 }
 
 
@@ -80,6 +84,14 @@ data "oci_objectstorage_bucket_summaries" "buckets1" {
 # Output the result
 
 # created output for debugging
+
+output "CREATED_IMAGE_ID" {
+  value = "${module.compute.created_image_id}"
+}
+
+# output "available SHAPES" {
+#   value = "${module.compute.available_shapes}"
+# }
 
 output created_object_name {
   value = "${module.object_storage.created_object_name}"
